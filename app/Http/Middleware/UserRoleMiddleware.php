@@ -24,6 +24,6 @@ class UserRoleMiddleware
             return $next($request);
         }
         
-        return response()->json(['Ви на маєте прав знаходитись на цій сторінці.']);
+        return response()->json(['You.']);
     }
 }
