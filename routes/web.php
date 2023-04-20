@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth','user-role:user'])->group(function()
+{
+    Route::get("/home",[HomeController::class, 'userHome'])->name("home");
+});
+
+Route::middleware(['auth','user-role:admin'])->group(function()
+{
+    Route::get("/admin/home",[HomeController::class, 'adminHome'])->name("admin.home");
+});
