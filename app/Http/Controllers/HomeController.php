@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -33,6 +34,8 @@ class HomeController extends Controller
      */
     public function adminHome()
     {
-        return view('home',["msg"=>"Hello! I am admin"]);
+        $users = User::paginate(18);
+        
+        return view('home',['users' => $users]);
     }
 }

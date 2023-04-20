@@ -2,23 +2,18 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    {{ Auth::user()->name }}
-                    <br>
-                    {{$msg}}
+    <div class="row">
+        @isset($users)
+            @foreach ($users as $user)
+            <a href="" class="card d-block" style="width: 33.333%; text-decoration:none;">
+                <img src="..." class="card-img-top" alt="..." style="min-width: 100%; min-height: 5rem;">
+                <div class="card-body row gap-1">
+                  <h4 class="card-title">{{$user->name}}</h4>
+                  <h5 class="card-title">{{$user->role}}</h5>
                 </div>
-            </div>
-        </div>
+            </a>
+            @endforeach
+        @endisset
     </div>
 </div>
 @endsection

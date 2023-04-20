@@ -13,22 +13,18 @@ class CreateUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = [
-            [
-               'name'=>'User',
-               'email'=>'user@cambotutorial.com',
-               'role'=> 0,
-               'password'=> bcrypt('123456'),
-            ],
-            [
-               'name'=>'admin',
-               'email'=>'admin@cambotutorial.com',
-               'role'=> 1,
-               'password'=> bcrypt('123456'),
-            ],
-            
-        ];
-    
+        $users = [];
+
+        for($i = 0; $i < 40; $i++)
+        {
+            array_push($users, [
+                'name'=>'User_' . $i,
+                'email'=>'user'. $i . '@cambotutorial.com',
+                'role'=> random_int(0,1),
+                'password'=> bcrypt('123456'),
+            ]);
+        }
+
         foreach ($users as $key => $user) 
         {
             User::create($user);
