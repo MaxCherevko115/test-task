@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="container">
-    @if (session('message'))
-    <div class="alert alert-success" role="alert">
-      <h4 class="alert-heading">{{session('message')}}</h4>
-    </div>
-    @endif
     <div class="row">
+        @if (session('message'))
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">{{session('message')}}</h4>
+        </div>
+        @endif
         <div class="col-md-12">
             <h1>All users</h1>
         </div>
@@ -25,6 +25,7 @@
             </a>
             @endforeach
         @endisset
+        <div class="row">{{$users->links()}}</div>
     </div>
 </div>
 @endsection
