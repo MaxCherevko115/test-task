@@ -26,7 +26,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function show($id)
+    public function show(string $id)
     {
         $user = User::findOrFail($id);
         
@@ -70,11 +70,47 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function delete($id)
+    public function delete(string $id)
     {
         $user = User::findOrFail($id)->delete();
 
         return redirect(route('admin.users'))->with('message', 'Deleted successfully!!');
+    }
+
+    /**
+     * Edit page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function edit(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        return view('edit', compact('user'));
+    }
+
+    /**
+     * Update user.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function update(Request $request,string $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validate = $request->validate([
+            'password' => 'min:6|max:64|required',
+            'email' => 'min:4|max:64|unique:users|required',
+            'name' => 'min:4|max:64|required',
+        ]);
+
+        $result = $user->update([
+            'email' => $validate['email'],
+            'name' => $validate['name'],
+            'password' => bcrypt($validate['password']),
+        ]);
+
+        return redirect(route('admin.edit', $id))->with('message', 'Edit successfully!!');
     }
 
     /**
@@ -87,6 +123,20 @@ class UsersController extends Controller
         $user = Auth::user();
 
         return view('profile',['user' => $user]);
+    }
+
+    /**
+     * Make user admin.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function role(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        $result = $user->update(['role' => '1']);
+
+        return redirect()->back();
     }
 
 }

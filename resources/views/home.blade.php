@@ -2,7 +2,16 @@
 
 @section('content')
 <div class="container">
+    @if (session('message'))
+    <div class="alert alert-success my-3 col-md-12" role="alert">
+      <h4 class="alert-heading">{{session('message')}}</h4>
+    </div>
+    @endif
     <div class="row">
+        <div class="col-md-12">
+            <h1>All users</h1>
+        </div>
+        <hr>
         @isset($users)
             @foreach ($users as $user)
             <a href="{{route("admin.user", $user->id)}}" class="d-block p-3" style="width: 33.333%; text-decoration:none;">
