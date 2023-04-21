@@ -7,15 +7,6 @@ use App\Models\User;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        
-    }
 
     /**
      * Show the application dashboard.
@@ -32,10 +23,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function adminHome()
+    public function show($id)
     {
-        $users = User::paginate(18);
+        $user = User::find($id);
         
-        return view('home',['users' => $users]);
+        return view('user',['user' => $user]);
     }
+
 }

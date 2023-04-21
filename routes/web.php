@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,5 +30,8 @@ Route::middleware(['auth','user-role:user'])->group(function()
 
 Route::middleware(['auth','user-role:admin'])->group(function()
 {
-    Route::get("/admin/home",[HomeController::class, 'adminHome'])->name("admin.home");
+    Route::get("/admin/users",[UsersController::class, 'index'])->name("admin.users");
+    Route::get("/admin/users/{id}",[UsersController::class, 'show'])->name("admin.user");
+    Route::get("/admin/create",[UsersController::class, 'create'])->name("admin.create");
+    Route::post("/admin/create",[UsersController::class, 'store'])->name("admin.store");
 });
