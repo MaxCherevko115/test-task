@@ -14,18 +14,19 @@ use App\Http\Controllers\Admin\UsersController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Auth::routes();
 
-Route::get('/', function () {
+Route::get("/",function() {
     return view('welcome');
 });
 
-Auth::routes();
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::middleware(['auth','user-role:user'])->group(function()
 {
-    Route::get("/home",[HomeController::class, 'userHome'])->name("home");
+    Route::get("/users",[HomeController::class, 'index'])->name("users");
+
+    Route::get("/profile",[HomeController::class, 'profile'])->name("profile");
+
+    Route::get("/users/{id}",[HomeController::class, 'show'])->name("user");
 });
 
 Route::middleware(['auth','user-role:admin'])->group(function()

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Storage;
 
 class UsersController extends Controller
 {
@@ -54,15 +55,24 @@ class UsersController extends Controller
             'email' => 'min:4|max:64|unique:users|required',
             'name' => 'min:4|max:64|required',
             'password' => 'min:6|max:64|required',
+            'img' => 'mimes:jpeg,jpg,png|required|max:10000',
         ]);
+
+        if ($request->hasFile('img')) {
+            $extension = $request->file('img')->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $image = $request->file('img')->move(storage_path('app/public/images'), $fileName);
+            $validate['img'] = $fileName;
+        }
 
         $result = User::create([
             'email' => $validate['email'],
             'name' => $validate['name'],
             'password' => bcrypt($validate['password']),
+            'img' => $validate['img'],
         ]);
 
-        return redirect(route('admin.create'))->with('message', 'Data saved successfully!!');
+        return redirect(route('admin.users'))->with('message', 'User added!!');
     }
 
     /**
@@ -72,7 +82,13 @@ class UsersController extends Controller
      */
     public function delete(string $id)
     {
-        $user = User::findOrFail($id)->delete();
+        $user = User::findOrFail($id);
+
+        if(Storage::exists('public/images')){
+            Storage::delete("public/images/{$user->img}");
+        }
+
+        $user->delete();
 
         return redirect(route('admin.users'))->with('message', 'Deleted successfully!!');
     }
@@ -99,15 +115,24 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
 
         $validate = $request->validate([
-            'password' => 'min:6|max:64|required',
             'email' => 'min:4|max:64|unique:users|required',
             'name' => 'min:4|max:64|required',
+            'password' => 'min:6|max:64|required',
+            'img' => 'mimes:jpeg,jpg,png|required|max:10000',
         ]);
+
+        if ($request->hasFile('img')) {
+            $extension = $request->file('img')->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $image = $request->file('img')->move(storage_path('app/public/images'), $fileName);
+            $validate['img'] = $fileName;
+        }
 
         $result = $user->update([
             'email' => $validate['email'],
             'name' => $validate['name'],
             'password' => bcrypt($validate['password']),
+            'img' => $validate['img'],
         ]);
 
         return redirect(route('admin.edit', $id))->with('message', 'Edit successfully!!');

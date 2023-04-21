@@ -20,9 +20,17 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+
+                @if (Auth::user()->role == 'admin')
+                    <a class="navbar-brand" href="{{ route('admin.users') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                @else
+                    <a class="navbar-brand" href="{{ route('users') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                @endif
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -49,19 +57,25 @@
                                 </li>
                             @endif
                         @else
+
+                        @if (Auth::user()->role == 'admin')
                             <a class="nav-link" href="{{route("admin.create")}}">Add new user<span class="sr-only"></span></a>
+                        @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{route('admin.profile')}}">My profile</a>
+                                    @if (Auth::user()->role == 'admin')
+                                        <a class="dropdown-item" href="{{route('admin.profile')}}">My profile</a>
+                                    @else
+                                        <a class="dropdown-item" href="{{route('profile')}}">My profile</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>

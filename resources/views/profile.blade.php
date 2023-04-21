@@ -7,7 +7,7 @@
             <h1>My profile</h1>
         </div>
         <hr>
-        <img class="col-md-4" src="{{$user->img}}" alt="" height="340">
+        <img class="col-md-4" src="{{asset("storage/images/{$user->img}")}}" alt="" height="340">
         <div class="col-md-8">
             <div class="row">
                 <h2>Name: {{$user->name}}</h2>
