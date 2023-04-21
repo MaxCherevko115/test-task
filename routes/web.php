@@ -32,6 +32,8 @@ Route::middleware(['auth','user-role:admin'])->group(function()
 {
     Route::get("/admin/users",[UsersController::class, 'index'])->name("admin.users");
     Route::get("/admin/users/{id}",[UsersController::class, 'show'])->name("admin.user");
+    Route::get("/admin/profile",[UsersController::class, 'profile'])->name("admin.profile");
     Route::get("/admin/create",[UsersController::class, 'create'])->name("admin.create");
     Route::post("/admin/create",[UsersController::class, 'store'])->name("admin.store");
+    Route::get("/admin/delete/{id}",[UsersController::class, 'delete'])->name("admin.delete");
 });

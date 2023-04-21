@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -27,9 +28,9 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         
-        return view('user',['user' => $user]);
+        return view('profile',['user' => $user]);
     }
 
     /**
@@ -45,7 +46,7 @@ class UsersController extends Controller
     /**
      * Save user.
      *
-     * @return void
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function store(Request $request)
     {
@@ -63,4 +64,29 @@ class UsersController extends Controller
 
         return redirect(route('admin.create'))->with('message', 'Data saved successfully!!');
     }
+
+    /**
+     * Delete user.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function delete($id)
+    {
+        $user = User::findOrFail($id)->delete();
+
+        return redirect(route('admin.users'))->with('message', 'Deleted successfully!!');
+    }
+
+    /**
+     * Show profile.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return view('profile',['user' => $user]);
+    }
+
 }
