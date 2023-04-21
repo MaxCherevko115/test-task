@@ -21,6 +21,7 @@ class CreateUserSeeder extends Seeder
                 'name'=>'User_' . $i,
                 'email'=>'user'. $i . '@cambotutorial.com',
                 'role'=> random_int(0,1),
+                'img' => "https://picsum.photos/id/{$i}/200/200",
                 'password'=> bcrypt('123456'),
             ]);
         }

@@ -26,7 +26,7 @@
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     @if (session('message'))
-    <div class="alert alert-success my-3 col-md-12" role="alert">
+    <div class="alert alert-success" role="alert">
       <h4 class="alert-heading">{{session('message')}}</h4>
     </div>
     @endif

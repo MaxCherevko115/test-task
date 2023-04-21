@@ -30,7 +30,7 @@ class UsersController extends Controller
     {
         $user = User::findOrFail($id);
         
-        return view('profile',['user' => $user]);
+        return view('user',['user' => $user]);
     }
 
     /**
@@ -136,7 +136,7 @@ class UsersController extends Controller
 
         $result = $user->update(['role' => '1']);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'The user become an admin!!');
     }
 
 }
