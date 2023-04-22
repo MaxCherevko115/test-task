@@ -32,17 +32,4 @@ class HomeController extends Controller
         
         return view('user',['user' => $user]);
     }
-
-    /**
-     * Show profile.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function profile()
-    {
-        $user = Auth::user();
-
-        return view('profile',['user' => $user]);
-    }
-
 }

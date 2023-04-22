@@ -16,10 +16,19 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <a href="{{route('admin.edit', $user->id)}}" type="button" class="btn btn-primary d-block">Edit</a>
+                    @if (Auth::user()->role == 'admin')
+                        <a href="{{route('admin.profile.edit')}}" type="button" class="btn btn-primary d-block">Edit</a>
+                    @else
+                        <a href="{{route('profile.edit')}}" type="button" class="btn btn-primary d-block">Edit</a>
+                    @endif
                 </div>
             </div>
         </div>
+        @if (session('message'))
+            <div class="alert alert-success my-3" role="alert">
+                <h4 class="alert-heading">{{session('message')}}</h4>
+            </div>
+        @endif
     </div>
 </div>
 @endsection

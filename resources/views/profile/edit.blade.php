@@ -4,10 +4,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Edit user</h1>
+                <h1>Edit profile</h1>
             </div>
             <hr>
-            <form action="{{route('admin.update', $user->id)}}" method="POST" class="col-md-12" enctype="multipart/form-data">
+            @if (Auth::user()->role == 'admin')
+                <form action="{{route('admin.profile.update')}}" method="POST" class="col-md-12" enctype="multipart/form-data">     
+            @else
+                <form action="{{route('profile.update')}}" method="POST" class="col-md-12" enctype="multipart/form-data">
+            @endif
                 @csrf
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -21,7 +25,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" aria-describedby="passwordError" value="{{$user->password}}">
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" aria-describedby="passwordError">
                     <div id="passwordError" class="form-text text-danger">@error('password'){{$message}}@enderror</div>
                 </div>
                 <div class="mb-3">

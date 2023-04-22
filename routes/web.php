@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+
 use App\Http\Controllers\Admin\UsersController;
 
 /*
@@ -24,9 +26,12 @@ Route::middleware(['auth','user-role:user'])->group(function()
 {
     Route::get("/users",[HomeController::class, 'index'])->name("users");
 
-    Route::get("/profile",[HomeController::class, 'profile'])->name("profile");
-
     Route::get("/users/{id}",[HomeController::class, 'show'])->name("user");
+
+    Route::get("/profile",[ProfileController::class, 'index'])->name("profile");
+    Route::get("/profile/edit",[ProfileController::class, 'edit'])->name("profile.edit");
+    Route::post("/profile/update",[ProfileController::class, 'update'])->name("profile.update");
+
 });
 
 Route::middleware(['auth','user-role:admin'])->group(function()
@@ -35,7 +40,9 @@ Route::middleware(['auth','user-role:admin'])->group(function()
 
     Route::get("/admin/users/{id}",[UsersController::class, 'show'])->name("admin.user");
 
-    Route::get("/admin/profile",[UsersController::class, 'profile'])->name("admin.profile");
+    Route::get("/admin/profile",[ProfileController::class, 'index'])->name("admin.profile");
+    Route::get("/admin/profile/edit",[ProfileController::class, 'edit'])->name("admin.profile.edit");
+    Route::post("/admin/profile/update",[ProfileController::class, 'update'])->name("admin.profile.update");
 
     Route::get("/admin/create",[UsersController::class, 'create'])->name("admin.create");
     Route::post("/admin/create",[UsersController::class, 'store'])->name("admin.store");

@@ -110,15 +110,15 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function update(Request $request,string $id)
+    public function update(Request $request)
     {
         $user = User::findOrFail($id);
 
         $validate = $request->validate([
-            'email' => 'min:4|max:64|unique:users|required',
+            'email' => 'min:4|max:64|required|unique:users,email,'. $id,
             'name' => 'min:4|max:64|required',
             'password' => 'min:6|max:64|required',
-            'img' => 'mimes:jpeg,jpg,png|required|max:10000',
+            'img' => 'mimes:jpeg,jpg,png|max:10000',
         ]);
 
         if ($request->hasFile('img')) {
@@ -128,28 +128,13 @@ class UsersController extends Controller
             $validate['img'] = $fileName;
         }
 
-        $result = $user->update([
-            'email' => $validate['email'],
-            'name' => $validate['name'],
-            'password' => bcrypt($validate['password']),
-            'img' => $validate['img'],
-        ]);
+        $validate['password'] = bcrypt($validate['password']);
+
+        $result = $user->update($validate);
 
         return redirect(route('admin.edit', $id))->with('message', 'Edit successfully!!');
     }
-
-    /**
-     * Show profile.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function profile()
-    {
-        $user = Auth::user();
-
-        return view('profile',['user' => $user]);
-    }
-
+    
     /**
      * Make user admin.
      *
