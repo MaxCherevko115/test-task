@@ -41,7 +41,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('create');
+        return view('admin.create');
     }
 
     /**
@@ -102,7 +102,7 @@ class UsersController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('edit', compact('user'));
+        return view('admin.edit', compact('user'));
     }
 
     /**
@@ -110,7 +110,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
@@ -134,7 +134,7 @@ class UsersController extends Controller
 
         return redirect(route('admin.edit', $id))->with('message', 'Edit successfully!!');
     }
-    
+
     /**
      * Make user admin.
      *
