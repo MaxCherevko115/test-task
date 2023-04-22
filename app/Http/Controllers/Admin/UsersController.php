@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Storage;
 
 class UsersController extends Controller
@@ -136,7 +136,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Make user admin.
+     * Make user admin and send message.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -145,6 +145,12 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
 
         $result = $user->update(['role' => '1']);
+
+        $email = $user->email;
+
+        Mail::send('emails.changeRole', [] , function($message) use ($email) {
+            $message->to($email)->subject('Role change');
+        });
 
         return redirect()->back()->with('message', 'The user become an admin!!');
     }

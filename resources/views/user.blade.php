@@ -8,9 +8,9 @@
         </div>
         <hr>
         @if (session('message'))
-        <div class="alert alert-success my-3" role="alert">
-            <h4 class="alert-heading">{{session('message')}}</h4>
-        </div>
+            <div class="alert alert-success my-3" role="alert">
+                <h4 class="alert-heading">{{session('message')}}</h4>
+            </div>
         @endisset
         <img class="col-md-4" src="{{asset("storage/images/{$user->img}")}}" alt="" height="340">
         <div class="col-md-8">
